@@ -3,182 +3,293 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>考試時程表</title>
+  <title>中秋風考試時程表</title>
   
-  <!-- 引入 Google Fonts: Klee One -->
+  <!-- 引入 Google Fonts: Noto Serif TC, Cinzel & Klee One -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Klee+One:wght@600&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
 
   <!-- 引入 Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
   
   <!-- 引入 Phosphor Icons (圖示庫) -->
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  
   <style>
     :root {
-      --chalk-white: #f8fafc;
-      --chalk-yellow: #fef08a;
-      --chalk-red: #fca5a5;
-      --chalk-blue: #93c5fd;
-      --chalk-green: #86efac;
-      --chalk-purple: #d8b4fe;
-      --board-bg: #2a3431; 
+      --ma-gold: #ffe38f;
+      --ma-gold-bright: #fff2b2;
+      --ma-gold-glow: rgba(255, 227, 143, 0.6);
+      --ma-red: #ff7070;
+      --ma-red-glow: rgba(255, 112, 112, 0.6);
+      --ma-bg-dark: #120921;
+      --ma-card-bg: rgba(28, 16, 43, 0.55);
     }
-    
+
     body { 
-      font-family: 'Klee One', cursive, sans-serif; 
-      background-color: var(--board-bg);
-      color: var(--chalk-white);
+      font-family: 'Noto Serif TC', 'Klee One', serif; 
+      background: linear-gradient(180deg, #0e071c 0%, #1c0a2a 30%, #3d1738 65%, #883e4c 88%, #c96b5a 100%);
+      color: #ffffff;
+      overflow: hidden;
     }
     
-    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
-    
-    .chalkboard-bg {
-      background-color: #26302c;
-      background-image: 
-        radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px),
-        radial-gradient(circle, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 32px 32px;
-      background-position: 0 0, 16px 16px;
+    ::-webkit-scrollbar-thumb { background: rgba(255, 227, 143, 0.3); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 227, 143, 0.6); }
+
+    .text-glow-white { 
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2); 
+    }
+    .text-glow-gold { 
+      color: var(--ma-gold-bright); 
+      text-shadow: 0 0 10px rgba(255, 227, 143, 0.8), 0 0 22px rgba(255, 200, 90, 0.5); 
+    }
+    .text-glow-red { 
+      color: var(--ma-red); 
+      text-shadow: 0 0 10px rgba(255, 112, 112, 0.8), 0 0 20px rgba(255, 80, 80, 0.5); 
     }
 
-    .chalk-text { text-shadow: 0px 0px 3px rgba(255, 255, 255, 0.4), 0px 0px 8px rgba(255, 255, 255, 0.1); }
-    .chalk-text-yellow { color: var(--chalk-yellow); text-shadow: 0px 0px 4px rgba(254, 240, 138, 0.5); }
-    .chalk-text-red { color: var(--chalk-red); text-shadow: 0px 0px 4px rgba(252, 165, 165, 0.5); }
-
-    .chalk-box {
-      border: 2px solid rgba(255,255,255,0.6);
-      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-      background: rgba(255,255,255,0.02);
-    }
-    .chalk-box:hover {
-      background: rgba(255,255,255,0.05);
-      border-color: rgba(255,255,255,0.9);
-    }
-    .chalk-box-active {
-      border: 3px solid var(--chalk-yellow);
-      border-radius: 15px 255px 15px 225px / 225px 15px 255px 15px;
-      background: rgba(254, 240, 138, 0.05);
-    }
-
-    .wooden-ledge {
-      background: linear-gradient(to bottom, #bd8349, #7a4f27);
-      border-top: 2px solid #e1b483;
-      box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+    /* 古典華麗框線元件 */
+    .midautumn-card {
+      background: var(--ma-card-bg);
+      backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(255, 227, 143, 0.35);
+      border-radius: 12px;
+      box-shadow: inset 0 0 20px rgba(255, 215, 120, 0.08), 0 10px 30px rgba(0, 0, 0, 0.4);
       position: relative;
     }
-    .chalk-piece {
+
+    /* 邊角古典裝飾花紋 */
+    .midautumn-card::before, .midautumn-card::after {
+      content: '';
       position: absolute;
-      bottom: 6px;
-      width: 45px;
-      height: 12px;
-      border-radius: 3px;
-      box-shadow: inset -2px -2px 4px rgba(0,0,0,0.2), 2px 2px 4px rgba(0,0,0,0.3);
+      width: 10px;
+      height: 10px;
+      border-color: rgba(255, 227, 143, 0.8);
+      border-style: solid;
+      pointer-events: none;
     }
-    
-    .chalk-input {
-      background: rgba(0,0,0,0.2);
-      border: none;
-      border-bottom: 2px dashed rgba(255,255,255,0.5);
-      color: var(--chalk-white);
-      font-family: 'Klee One', cursive;
+    .midautumn-card::before { top: 3px; left: 3px; border-width: 2px 0 0 2px; }
+    .midautumn-card::after { bottom: 3px; right: 3px; border-width: 0 2px 2px 0; }
+
+    .midautumn-card-active {
+      background: rgba(48, 26, 68, 0.75);
+      border: 2px solid var(--ma-gold);
+      box-shadow: 0 0 25px rgba(255, 227, 143, 0.5), inset 0 0 20px rgba(255, 227, 143, 0.2);
     }
-    .chalk-input:focus {
+
+    /* 星空閃爍粒子 */
+    .star {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      animation: pulseStar linear infinite alternate;
+    }
+    @keyframes pulseStar {
+      0% { opacity: 0.2; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.3); }
+    }
+
+    /* 天燈浮動動畫 */
+    @keyframes floatSkyLantern {
+      0% { transform: translateY(0px) rotate(-2deg); }
+      50% { transform: translateY(-18px) rotate(3deg); }
+      100% { transform: translateY(0px) rotate(-2deg); }
+    }
+    .sky-lantern {
+      animation: floatSkyLantern 6s ease-in-out infinite;
+      filter: drop-shadow(0 0 15px rgba(255, 150, 50, 0.6));
+    }
+
+    /* 嫦娥與緞帶飄逸動畫 */
+    @keyframes floatMaiden {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(1deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+    .maiden-float {
+      animation: floatMaiden 7s ease-in-out infinite;
+    }
+
+    /* 輸入框樣式 */
+    .ma-input {
+      background: rgba(15, 8, 25, 0.6);
+      border: 1px solid rgba(255, 227, 143, 0.3);
+      color: var(--ma-gold-bright);
+      border-radius: 8px;
+    }
+    .ma-input:focus {
       outline: none;
-      border-bottom-color: var(--chalk-yellow);
-      background: rgba(0,0,0,0.4);
-    }
-    ::-webkit-calendar-picker-indicator {
-      filter: invert(1);
-      opacity: 0.7;
-      cursor: pointer;
+      border-color: var(--ma-gold);
+      box-shadow: 0 0 10px rgba(255, 227, 143, 0.3);
     }
   </style>
 </head>
-<body class="antialiased overflow-hidden selection:bg-[#fef08a] selection:text-black chalkboard-bg h-screen flex flex-col relative">
+<body class="antialiased selection:bg-[#ffe38f] selection:text-black h-screen flex flex-col relative overflow-hidden">
+
+  <!-- 背景星空與粒子容器 -->
+  <div id="starfield" class="absolute inset-0 pointer-events-none z-0"></div>
+
+  <!-- 巨大明月與嫦娥古典藝術背景 (置於右側) -->
+  <div class="absolute right-[-5%] sm:right-[2%] top-[5%] md:top-[8%] w-[320px] sm:w-[480px] md:w-[620px] lg:w-[750px] aspect-square pointer-events-none z-0 opacity-80 md:opacity-90 transition-all duration-700">
+    <!-- 明月月暈與主體 -->
+    <svg viewBox="0 0 500 500" class="w-full h-full filter drop-shadow-[0_0_60px_rgba(255,220,130,0.45)]">
+      <defs>
+        <radialGradient id="moonGrad" cx="35%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#ffffff" />
+          <stop offset="30%" stop-color="#fff5c0" />
+          <stop offset="70%" stop-color="#ffd257" />
+          <stop offset="100%" stop-color="#e8982c" />
+        </radialGradient>
+        <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+          <stop offset="100%" stop-color="#ffeab3" stop-opacity="0.6" />
+        </linearGradient>
+      </defs>
+      
+      <!-- 月球本體 -->
+      <circle cx="250" cy="250" r="190" fill="url(#moonGrad)" />
+      <!-- 月球紋理 (微光凹陷效果) -->
+      <circle cx="200" cy="180" r="35" fill="#f0be43" opacity="0.25" />
+      <circle cx="290" cy="220" r="50" fill="#e3ab32" opacity="0.2" />
+      <circle cx="210" cy="280" r="42" fill="#e3ab32" opacity="0.18" />
+
+      <!-- 祥雲 (雲彩環繞) -->
+      <path d="M 60,340 C 60,300 100,280 140,300 C 160,260 220,260 250,290 C 280,270 330,280 340,320 C 370,320 390,350 370,380 C 350,400 100,400 60,340 Z" fill="url(#cloudGrad)" opacity="0.8" />
+    </svg>
+
+    <!-- 嫦娥古典姿態與彩帶 (SVG 插畫) -->
+    <div class="absolute inset-0 maiden-float flex items-center justify-center">
+      <svg viewBox="0 0 400 400" class="w-[85%] h-[85%] filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
+        <!-- 飄逸紅色飄帶 -->
+        <path d="M 120,240 Q 80,180 140,120 T 260,80 Q 330,90 320,160 T 220,260 Q 140,320 200,380" fill="none" stroke="#e85353" stroke-width="12" stroke-linecap="round" opacity="0.85" />
+        <path d="M 130,230 Q 90,170 140,120 T 260,80 Q 330,90 320,160 T 220,260" fill="none" stroke="#ff8080" stroke-width="5" stroke-linecap="round" opacity="0.9" />
+
+        <!-- 嫦娥霓裳裙擺 -->
+        <path d="M 230,160 Q 180,240 140,300 Q 190,320 240,280 Q 280,220 250,160 Z" fill="#fffbe6" opacity="0.9" />
+        <path d="M 230,160 Q 200,230 170,310 Q 195,315 220,290 Z" fill="#ffe38f" opacity="0.8" />
+        <path d="M 220,160 Q 250,220 270,280 Q 255,295 240,280 Z" fill="#6ba4b8" opacity="0.7" />
+
+        <!-- 仙女髮型與頭飾 -->
+        <circle cx="255" cy="115" r="14" fill="#2b1c24" />
+        <ellipse cx="252" cy="102" rx="10" ry="14" fill="#2b1c24" />
+        <!-- 金髮簪 -->
+        <path d="M 245,98 L 270,92" stroke="#ffe38f" stroke-width="3" stroke-linecap="round" />
+        <circle cx="272" cy="91" r="3" fill="#ff7070" />
+
+        <!-- 臉龐與脖子 -->
+        <path d="M 245,115 Q 248,128 255,130 Q 262,128 262,118 Z" fill="#ffebe0" />
+
+        <!-- 扇子 (團扇) -->
+        <ellipse cx="230" cy="135" rx="14" ry="18" fill="#ffe38f" stroke="#d49b35" stroke-width="2" />
+        <line x1="230" y1="153" x2="230" y2="175" stroke="#b87b28" stroke-width="2" />
+        <path d="M 225,130 Q 230,125 235,135" fill="none" stroke="#c95b4b" stroke-width="1.5" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- 左下方飄浮天燈 -->
+  <div class="absolute left-[4%] sm:left-[8%] bottom-[8%] md:bottom-[12%] flex gap-4 pointer-events-none z-0">
+    <!-- 天燈 1 -->
+    <div class="sky-lantern w-14 h-20 sm:w-20 sm:h-28 relative">
+      <svg viewBox="0 0 80 110" class="w-full h-full">
+        <path d="M 15,30 Q 40,5 65,30 Q 75,70 60,95 Q 40,105 20,95 Q 5,70 15,30 Z" fill="url(#lanternGrad)" />
+        <defs>
+          <radialGradient id="lanternGrad" cx="50%" cy="70%" r="60%">
+            <stop offset="0%" stop-color="#fff2a8" />
+            <stop offset="40%" stop-color="#ff7b42" />
+            <stop offset="90%" stop-color="#c42b2b" />
+          </radialGradient>
+        </defs>
+        <!-- 天燈流蘇 -->
+        <line x1="40" y1="98" x2="40" y2="110" stroke="#ff4d4d" stroke-width="2" />
+        <circle cx="40" cy="110" r="2" fill="#ffe38f" />
+      </svg>
+    </div>
+    <!-- 天燈 2 (較小) -->
+    <div class="sky-lantern w-10 h-14 sm:w-14 sm:h-20 relative -translate-y-6 opacity-80" style="animation-delay: -2s;">
+      <svg viewBox="0 0 80 110" class="w-full h-full">
+        <path d="M 15,30 Q 40,5 65,30 Q 75,70 60,95 Q 40,105 20,95 Q 5,70 15,30 Z" fill="url(#lanternGrad)" />
+      </svg>
+    </div>
+  </div>
 
   <!-- 頂部設定按鈕 -->
-  <button onclick="openSettings()" class="absolute top-4 right-4 md:top-6 md:right-6 p-2 md:p-3 text-white/60 hover:text-white transition-colors duration-300 z-20 flex items-center justify-center rounded-full hover:bg-white/10" title="系統管理">
-    <i class="ph ph-gear-six text-3xl md:text-4xl chalk-text"></i>
+  <button onclick="openSettings()" class="absolute top-4 right-4 md:top-6 md:right-6 p-2.5 md:p-3.5 text-[#ffe38f]/80 hover:text-[#ffe38f] hover:scale-110 transition-all duration-300 z-20 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-md border border-[#ffe38f]/30 shadow-lg" title="系統管理">
+    <i class="ph ph-gear-six text-2xl md:text-3xl text-glow-gold"></i>
   </button>
 
-  <!-- 主容器 (移除滾動，改為高度滿版且內容置中) -->
-  <div class="flex-1 w-full flex flex-col min-h-0 overflow-hidden">
+  <!-- 主容器 (滿版 layout，自動調節高度) -->
+  <div class="flex-1 w-full flex flex-col min-h-0 overflow-hidden relative z-10">
     
-    <!-- 上方：巨大時鐘與叮嚀區塊 (高度自適應，字體放大) -->
-    <div class="w-full flex flex-col justify-center items-center pt-6 md:pt-10 pb-2 shrink-0 z-10">
-      <div id="clock-display" class="font-bold tracking-[0.1em] tabular-nums text-center chalk-text" style="font-size: clamp(6rem, 22vh, 25rem); line-height: 1;">
+    <!-- 上方：巨大時鐘與叮嚀區塊 -->
+    <div class="w-full flex flex-col justify-center items-center pt-5 md:pt-8 pb-2 shrink-0 z-10 px-4">
+      <div id="clock-display" class="font-bold tracking-[0.08em] tabular-nums text-center text-glow-white font-['Cinzel',serif]" style="font-size: clamp(4.5rem, 18vh, 18rem); line-height: 1;">
         --:--:--
       </div>
-      <div id="notes-display" class="text-2xl md:text-4xl mt-4 md:mt-6 tracking-widest chalk-text-yellow px-6 text-center max-w-5xl leading-relaxed">
+      
+      <!-- 老師的小叮嚀區塊 (華麗金框條) -->
+      <div id="notes-container" class="mt-3 md:mt-5 max-w-4xl w-full">
+        <div id="notes-display" class="text-xl md:text-3xl tracking-widest text-glow-gold px-6 py-2 md:py-3 text-center midautumn-card border-[#ffe38f]/40 leading-relaxed font-semibold">
+        </div>
       </div>
     </div>
 
-    <!-- 下方/中央：考試科目清單區塊 (動態填滿剩餘高度並置中卡片) -->
-    <div class="w-full max-w-[1600px] mx-auto px-4 md:px-8 pb-12 md:pb-16 pt-2 flex-1 flex flex-col justify-center items-center min-h-0">
-      <div id="schedule-container" class="flex flex-row flex-wrap justify-center items-center content-center gap-3 md:gap-5 w-full h-full overflow-hidden">
+    <!-- 下方/中央：考試科目清單區塊 -->
+    <div class="w-full max-w-[1600px] mx-auto px-4 md:px-8 pb-10 md:pb-14 pt-3 flex-1 flex flex-col justify-center items-center min-h-0">
+      <div id="schedule-container" class="flex flex-row flex-wrap justify-center items-center content-center gap-4 md:gap-6 w-full h-full overflow-y-auto pr-1">
         <!-- 內容由 JavaScript 動態生成 -->
       </div>
     </div>
   </div>
 
-  <!-- 右下方：倒數計時器 (浮動) -->
-  <div id="countdown-container" class="fixed bottom-10 md:bottom-12 right-4 md:right-8 z-30 hidden transition-all duration-500 chalk-box p-4 md:p-5 bg-[#26302c]/95 backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.6)] transform translate-y-0">
-    <div class="text-[var(--chalk-red)] text-xs md:text-sm font-bold tracking-[0.2em] mb-1 md:mb-2 flex items-center gap-2">
-      <i class="ph-fill ph-timer animate-pulse"></i> 本節剩餘時間
+  <!-- 右下方：倒數計時器 (浮動中秋風格卡片) -->
+  <div id="countdown-container" class="fixed bottom-6 md:bottom-10 right-4 md:right-8 z-30 hidden transition-all duration-500 midautumn-card p-4 md:p-5 bg-[#1a0c29]/90 backdrop-blur-md border-[#ff7070]/60 shadow-[0_10px_35px_rgba(255,112,112,0.3)] transform translate-y-0">
+    <div class="text-[var(--ma-red)] text-xs md:text-sm font-bold tracking-[0.2em] mb-1.5 flex items-center gap-2">
+      <i class="ph-fill ph-timer text-lg animate-pulse"></i> 本節剩餘時間
     </div>
-    <div id="countdown-display" class="text-5xl md:text-7xl font-mono chalk-text-red tabular-nums text-center font-bold tracking-widest leading-none">
+    <div id="countdown-display" class="text-4xl md:text-6xl font-mono text-glow-red tabular-nums text-center font-bold tracking-widest leading-none">
       --:--
     </div>
   </div>
-  
-  <!-- 底部木頭粉筆槽裝飾 (固定於底部) -->
-  <div class="wooden-ledge fixed bottom-0 left-0 w-full h-4 md:h-6 z-40">
-    <div class="chalk-piece bg-[#fca5a5] left-[10%] rotate-[-15deg]"></div>
-    <div class="chalk-piece bg-[#f8fafc] left-[15%] rotate-[5deg]"></div>
-    <div class="chalk-piece bg-[#86efac] left-[45%] md:left-[50%] rotate-[20deg]"></div>
-    <div class="chalk-piece bg-[#93c5fd] right-[30%] rotate-[-10deg]"></div>
-    <div class="chalk-piece bg-[#fef08a] right-[25%] rotate-[12deg]"></div>
-    <div class="chalk-piece bg-[#d8b4fe] right-[5%] rotate-[-5deg]"></div>
-  </div>
 
   <!-- 設定對話視窗 (Modal) -->
-  <div id="settings-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm justify-center items-center z-50 p-4 hidden transition-opacity duration-300">
-    <div class="w-full max-w-4xl flex flex-col overflow-hidden max-h-[90vh] shadow-2xl animate-[fadeIn_0.2s_ease-out] rounded-xl border-[12px] border-[#8b5a2b] relative chalkboard-bg">
+  <div id="settings-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md justify-center items-center z-50 p-4 hidden transition-opacity duration-300">
+    <div class="w-full max-w-4xl flex flex-col overflow-hidden max-h-[90vh] shadow-[0_0_50px_rgba(0,0,0,0.8)] rounded-2xl border-2 border-[#ffe38f]/60 relative bg-[#180b29]/95 text-white">
         
-        <div class="p-4 md:p-6 flex justify-between items-center shrink-0 border-b-2 border-white/20 bg-black/20">
-          <h3 class="text-xl md:text-2xl font-bold flex items-center gap-3 tracking-widest chalk-text">
-            <i class="ph ph-chalkboard-teacher text-3xl"></i> 系統管理與考程設定
+        <!-- Header -->
+        <div class="p-4 md:p-6 flex justify-between items-center shrink-0 border-b border-[#ffe38f]/30 bg-black/40">
+          <h3 class="text-xl md:text-2xl font-bold flex items-center gap-3 tracking-widest text-glow-gold">
+            <i class="ph ph-moon-stars text-3xl"></i> 考程與系統設定
           </h3>
-          <button onclick="closeSettings()" class="p-2 text-white/60 hover:text-white transition-colors">
+          <button onclick="closeSettings()" class="p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10">
             <i class="ph ph-x text-2xl"></i>
           </button>
         </div>
 
+        <!-- Body -->
         <div class="p-4 md:p-8 overflow-y-auto flex-1 flex flex-col md:flex-row gap-6 md:gap-8 min-h-0">
           
           <!-- 左欄：全局設定 -->
           <div class="w-full md:w-5/12 flex flex-col gap-6">
-            <div class="chalk-box p-5 md:p-6 flex-1">
-              <h4 class="text-base md:text-lg font-bold text-[var(--chalk-yellow)] tracking-[0.2em] mb-4 md:mb-6 flex items-center gap-2 border-b-2 border-white/20 pb-3">
+            <div class="midautumn-card p-5 md:p-6 flex-1 bg-black/20">
+              <h4 class="text-base md:text-lg font-bold text-[var(--ma-gold)] tracking-[0.2em] mb-4 md:mb-6 flex items-center gap-2 border-b border-[#ffe38f]/20 pb-3">
                 <i class="ph ph-sliders-horizontal"></i> 畫面顯示設定
               </h4>
               
-              <div class="space-y-4 md:space-y-6">
+              <div class="space-y-5">
                 <label class="flex items-center gap-3 cursor-pointer group">
-                  <input type="checkbox" id="setting-countdown" onchange="autoSaveGlobalSettings()" class="w-5 h-5 rounded bg-black/20 border-white/50 text-[var(--chalk-yellow)] focus:ring-[var(--chalk-yellow)] cursor-pointer">
-                  <span class="text-lg md:text-xl chalk-text tracking-widest group-hover:text-[var(--chalk-yellow)] transition-colors">啟用右下方倒數計時</span>
+                  <input type="checkbox" id="setting-countdown" onchange="autoSaveGlobalSettings()" class="w-5 h-5 rounded bg-black/40 border-[#ffe38f]/50 text-[var(--ma-gold)] focus:ring-[var(--ma-gold)] cursor-pointer accent-[#ffe38f]">
+                  <span class="text-base md:text-lg tracking-widest group-hover:text-[var(--ma-gold)] transition-colors">啟用右下方倒數計時</span>
                 </label>
 
                 <div class="pt-2">
-                  <label class="block text-lg md:text-xl font-bold text-white/90 mb-2 md:mb-3 tracking-widest chalk-text flex items-center gap-2">
-                    <i class="ph ph-chat-text"></i> 老師的小叮嚀
+                  <label class="block text-base md:text-lg font-bold text-white/90 mb-2 tracking-widest flex items-center gap-2">
+                    <i class="ph ph-chat-circle-text text-xl text-[var(--ma-gold)]"></i> 老師的小叮嚀
                   </label>
-                  <textarea id="setting-notes" rows="3" onchange="autoSaveGlobalSettings()" placeholder="例如：請保持安靜，仔細檢查試卷！" class="w-full p-3 md:p-4 chalk-input text-lg md:text-xl resize-none rounded bg-black/20"></textarea>
+                  <textarea id="setting-notes" rows="3" onchange="autoSaveGlobalSettings()" placeholder="例如：月圓人團圓，考試也圓滿！" class="w-full p-3 ma-input text-base resize-none"></textarea>
                 </div>
               </div>
             </div>
@@ -186,57 +297,73 @@
 
           <!-- 右欄：考程編輯 -->
           <div class="w-full md:w-7/12 flex flex-col">
-            <h4 class="text-base md:text-lg font-bold text-white/80 tracking-[0.2em] mb-3 md:mb-4 flex items-center gap-2 border-l-4 border-white/60 pl-3">
-              黑板上的考程
+            <h4 class="text-base md:text-lg font-bold text-white/90 tracking-[0.2em] mb-3 md:mb-4 flex items-center gap-2 border-l-4 border-[var(--ma-gold)] pl-3">
+              考程項目編輯
             </h4>
             
-            <div class="p-4 md:p-5 chalk-box mb-4 md:mb-6 grid grid-cols-2 md:flex md:flex-wrap gap-3 items-end bg-white/5">
-              <div class="col-span-2 md:flex-1 md:min-w-[100px]">
-                <label class="block text-sm font-bold text-white/70 mb-1 md:mb-2 tracking-widest">科目名稱</label>
-                <input type="text" id="new-subject" placeholder="例：國文" class="w-full p-2 chalk-input text-base md:text-lg" />
+            <div class="p-4 md:p-5 midautumn-card mb-4 md:mb-6 grid grid-cols-2 md:flex md:flex-wrap gap-3 items-end bg-black/20">
+              <div class="col-span-2 md:flex-1 md:min-w-[120px]">
+                <label class="block text-xs md:text-sm font-bold text-white/70 mb-1 tracking-widest">科目名稱</label>
+                <input type="text" id="new-subject" placeholder="例：國文" class="w-full p-2.5 ma-input text-sm md:text-base" />
               </div>
-              <!-- 將寬度從原本的 w-20 加寬為 w-32 / w-40 -->
-              <div class="col-span-1 md:w-32 lg:w-40">
-                <label class="block text-sm font-bold text-white/70 mb-1 md:mb-2 tracking-widest">開始</label>
-                <input type="time" id="new-start" class="w-full p-2 chalk-input text-base md:text-lg" />
+              <div class="col-span-1 md:w-32">
+                <label class="block text-xs md:text-sm font-bold text-white/70 mb-1 tracking-widest">開始時間</label>
+                <input type="time" id="new-start" class="w-full p-2.5 ma-input text-sm md:text-base" />
               </div>
-              <div class="col-span-1 md:w-32 lg:w-40">
-                <label class="block text-sm font-bold text-white/70 mb-1 md:mb-2 tracking-widest">結束</label>
-                <input type="time" id="new-end" class="w-full p-2 chalk-input text-base md:text-lg" />
+              <div class="col-span-1 md:w-32">
+                <label class="block text-xs md:text-sm font-bold text-white/70 mb-1 tracking-widest">結束時間</label>
+                <input type="time" id="new-end" class="w-full p-2.5 ma-input text-sm md:text-base" />
               </div>
-              <button id="btn-submit-item" type="button" onclick="addEditingItem()" class="col-span-2 border-2 border-[var(--chalk-green)] text-[var(--chalk-green)] hover:bg-[var(--chalk-green)] hover:text-black p-2 flex items-center gap-1 font-bold transition-all w-full md:w-auto justify-center tracking-widest rounded shadow-sm text-sm md:text-base">
+              <button id="btn-submit-item" type="button" onclick="addEditingItem()" class="col-span-2 border border-[var(--ma-gold)] text-[var(--ma-gold)] hover:bg-[var(--ma-gold)] hover:text-black p-2.5 flex items-center gap-1.5 font-bold transition-all w-full md:w-auto justify-center tracking-widest rounded-lg shadow-md text-sm md:text-base">
                 <i id="submit-icon" class="ph ph-plus text-lg"></i> <span id="submit-text">新增</span>
               </button>
             </div>
 
-            <div id="editing-list" class="space-y-2 md:space-y-3 overflow-y-auto max-h-[30vh] pr-2">
+            <!-- 編輯中列表 -->
+            <div id="editing-list" class="space-y-2 md:space-y-3 overflow-y-auto max-h-[32vh] pr-1">
             </div>
           </div>
         </div>
 
-        <div class="p-4 md:p-5 flex justify-end gap-4 shrink-0 border-t-2 border-white/20 bg-black/30">
-          <button onclick="closeSettings()" class="px-6 py-2 md:py-3 font-bold bg-white/10 text-white/90 hover:text-white border-2 border-white hover:bg-white hover:text-black rounded-lg transition-all tracking-widest text-base md:text-lg">
-            關閉視窗 (自動儲存)
+        <!-- Footer -->
+        <div class="p-4 md:p-5 flex justify-end gap-4 shrink-0 border-t border-[#ffe38f]/30 bg-black/40">
+          <button onclick="closeSettings()" class="px-6 py-2.5 font-bold bg-[#ffe38f]/10 text-[var(--ma-gold)] hover:bg-[var(--ma-gold)] hover:text-black border border-[var(--ma-gold)] rounded-lg transition-all tracking-widest text-base">
+            完成關閉 (已自動儲存)
           </button>
         </div>
 
     </div>
   </div>
 
+  <!-- 自訂提示訊息與確認對話框 (替代原原生 alert/confirm) -->
+  <div id="custom-dialog" class="fixed inset-0 bg-black/75 backdrop-blur-sm justify-center items-center z-50 p-4 hidden">
+    <div class="w-full max-w-md midautumn-card p-6 bg-[#1f0d33]/95 border-[#ffe38f]/60 shadow-2xl text-center flex flex-col items-center">
+      <div id="dialog-icon" class="text-4xl text-glow-gold mb-3">
+        <i class="ph ph-info"></i>
+      </div>
+      <p id="dialog-message" class="text-lg md:text-xl tracking-widest mb-6 text-white leading-relaxed">提示訊息</p>
+      <div id="dialog-buttons" class="flex gap-4 justify-center w-full">
+        <!-- 動態帶入按鈕 -->
+      </div>
+    </div>
+  </div>
+
   <script>
+    // 預設資料
     const defaultData = {
       schedule: [
         { id: '1', subject: '國文', startTime: '08:10', endTime: '09:30' },
         { id: '2', subject: '英文', startTime: '09:50', endTime: '11:10' },
         { id: '3', subject: '數學', startTime: '11:30', endTime: '12:50' },
       ],
-      settings: { showCountdown: true, teacherNotes: '各位同學，考試加油！細心作答喔！' }
+      settings: { showCountdown: true, teacherNotes: '中秋佳節，考試順利！細心作答喔！' }
     };
     
     let appData = JSON.parse(JSON.stringify(defaultData));
     
+    // 讀取 LocalStorage
     try {
-      const savedData = localStorage.getItem('boardAppData');
+      const savedData = localStorage.getItem('boardAppData_midautumn');
       if (savedData) appData = JSON.parse(savedData);
     } catch (e) {
       console.error('無法讀取本地儲存資料', e);
@@ -246,6 +373,41 @@
     let activeExamId = null;
     let currentEditId = null; 
 
+    // 自訂 Dialog (替代 alert & confirm)
+    function showCustomAlert(msg) {
+      const dialog = document.getElementById('custom-dialog');
+      document.getElementById('dialog-icon').innerHTML = '<i class="ph ph-warning-circle text-[var(--ma-gold)]"></i>';
+      document.getElementById('dialog-message').textContent = msg;
+      document.getElementById('dialog-buttons').innerHTML = `
+        <button onclick="closeCustomDialog()" class="px-6 py-2 font-bold bg-[var(--ma-gold)] text-black rounded-lg hover:opacity-90 tracking-widest">確定</button>
+      `;
+      dialog.classList.remove('hidden');
+      dialog.classList.add('flex');
+    }
+
+    function showCustomConfirm(msg, onConfirm) {
+      const dialog = document.getElementById('custom-dialog');
+      document.getElementById('dialog-icon').innerHTML = '<i class="ph ph-question text-[var(--ma-gold)]"></i>';
+      document.getElementById('dialog-message').textContent = msg;
+      document.getElementById('dialog-buttons').innerHTML = `
+        <button onclick="closeCustomDialog()" class="px-5 py-2 font-bold bg-white/10 text-white border border-white/30 rounded-lg hover:bg-white/20 tracking-widest">取消</button>
+        <button id="dialog-confirm-btn" class="px-5 py-2 font-bold bg-[var(--ma-red)] text-white rounded-lg hover:opacity-90 tracking-widest">擦除</button>
+      `;
+      document.getElementById('dialog-confirm-btn').onclick = () => {
+        closeCustomDialog();
+        onConfirm();
+      };
+      dialog.classList.remove('hidden');
+      dialog.classList.add('flex');
+    }
+
+    function closeCustomDialog() {
+      const dialog = document.getElementById('custom-dialog');
+      dialog.classList.add('hidden');
+      dialog.classList.remove('flex');
+    }
+
+    // 格式化時間
     const formatTime = (date) => {
       const h = String(date.getHours()).padStart(2, '0');
       const m = String(date.getMinutes()).padStart(2, '0');
@@ -253,6 +415,7 @@
       return `${h}:${m}:${s}`;
     };
 
+    // 檢查是否為目前考試時間區段
     const isCurrentExam = (start, end, timeObj) => {
       const currentMinutes = timeObj.getHours() * 60 + timeObj.getMinutes();
       const [startH, startM] = start.split(':').map(Number);
@@ -262,14 +425,15 @@
       return currentMinutes >= startTotal && currentMinutes <= endTotal;
     };
 
+    // 渲染主黑板科目清單
     function renderSchedule() {
       const container = document.getElementById('schedule-container');
       
       if (appData.schedule.length === 0) {
         container.innerHTML = `
-          <div class="text-center text-white/50 mt-10 flex flex-col items-center w-full">
-            <i class="ph ph-wind text-5xl md:text-6xl mb-4 opacity-50"></i>
-            <p class="tracking-widest chalk-text text-lg md:text-xl">黑板上空空如也，請點擊右上角新增考程</p>
+          <div class="text-center text-white/50 mt-8 flex flex-col items-center w-full">
+            <i class="ph ph-moon-stars text-5xl md:text-6xl mb-3 opacity-60 text-[var(--ma-gold)] animate-pulse"></i>
+            <p class="tracking-widest text-lg md:text-xl text-glow-gold">月夜靜悄悄，尚未安排考程項目</p>
           </div>
         `;
         return;
@@ -278,34 +442,38 @@
       container.innerHTML = appData.schedule.map(exam => {
         const isActive = exam.id === activeExamId;
         return `
-          <div class="p-3 md:p-4 transition-all duration-500 relative ${isActive ? 'chalk-box-active scale-105 shadow-[0_0_20px_rgba(254,240,138,0.15)] z-10' : 'chalk-box opacity-80 hover:opacity-100'} w-fit min-w-0 flex-shrink-0 group">
+          <div class="p-4 md:p-5 transition-all duration-500 relative ${isActive ? 'midautumn-card-active scale-105 z-10' : 'midautumn-card opacity-85 hover:opacity-100 hover:scale-[1.02]'} w-fit min-w-[260px] md:min-w-[300px] flex-shrink-0 group">
             
-            ${isActive ? `<span class="absolute -top-3 -left-3 text-[var(--chalk-yellow)] border border-[var(--chalk-yellow)] bg-[#26302c] text-xs font-bold px-2 py-1 md:px-3 md:py-1.5 tracking-[0.2em] rounded-full animate-pulse whitespace-nowrap shadow-lg z-30">進行中</span>` : ''}
+            ${isActive ? `<span class="absolute -top-3.5 left-4 text-[var(--ma-gold-bright)] border border-[var(--ma-gold)] bg-[#210d33] text-xs font-bold px-3 py-1 tracking-[0.2em] rounded-full animate-pulse shadow-lg z-30 flex items-center gap-1.5"><i class="ph-fill ph-sparkle"></i> 進行中</span>` : ''}
 
-            <div class="flex flex-col gap-1 md:gap-2 h-full justify-center pt-1">
+            <div class="flex flex-col gap-2 justify-center">
               
-              <!-- 科目名稱與圖示緊貼，移除所有不必要的空白 -->
-              <div class="flex items-center gap-2 mb-1">
-                <span class="text-2xl md:text-4xl font-bold tracking-widest leading-none ${isActive ? 'chalk-text-yellow' : 'chalk-text'}">
-                  ${exam.subject}
-                </span>
+              <!-- 科目名稱與管理操作按鈕 -->
+              <div class="flex items-center justify-between gap-3 border-b border-[#ffe38f]/20 pb-2">
+                <div class="flex items-center gap-2">
+                  <i class="ph ph-book-open text-2xl md:text-3xl ${isActive ? 'text-[var(--ma-gold-bright)]' : 'text-white/60'}"></i>
+                  <span class="text-2xl md:text-4xl font-bold tracking-widest leading-none ${isActive ? 'text-glow-gold' : 'text-glow-white'}">
+                    ${exam.subject}
+                  </span>
+                </div>
                 
-                <div class="flex gap-1 z-20 opacity-70 hover:opacity-100 transition-opacity">
-                  <button onclick="editFromMain('${exam.id}')" class="text-white/70 hover:text-[var(--chalk-yellow)] transition-colors bg-[#26302c]/50 rounded-full p-1.5" title="修改">
-                    <i class="ph ph-pencil-simple text-xl md:text-2xl"></i>
+                <div class="flex gap-1.5 z-20 opacity-70 group-hover:opacity-100 transition-opacity">
+                  <button onclick="editFromMain('${exam.id}')" class="text-white/70 hover:text-[var(--ma-gold)] transition-colors bg-black/40 rounded-full p-1.5 hover:scale-110" title="修改">
+                    <i class="ph ph-pencil-simple text-lg md:text-xl"></i>
                   </button>
-                  <button onclick="deleteFromMain('${exam.id}')" class="text-white/70 hover:text-[var(--chalk-red)] transition-colors bg-[#26302c]/50 rounded-full p-1.5" title="擦除">
-                    <i class="ph ph-eraser text-xl md:text-2xl"></i>
+                  <button onclick="deleteFromMain('${exam.id}')" class="text-white/70 hover:text-[var(--ma-red)] transition-colors bg-black/40 rounded-full p-1.5 hover:scale-110" title="擦除">
+                    <i class="ph ph-eraser text-lg md:text-xl"></i>
                   </button>
                 </div>
               </div>
               
               <!-- 下方時間區塊 -->
-              <div class="flex items-center gap-3 mt-1">
-                <i class="ph ${isActive ? 'ph-hourglass-high text-[var(--chalk-yellow)] animate-pulse' : 'ph-clock text-white/50'} text-3xl md:text-4xl"></i>
-                <div class="flex flex-col border-l-2 ${isActive ? 'border-[var(--chalk-yellow)]' : 'border-white/30'} pl-3 py-1 gap-1">
-                  <span class="tracking-[0.1em] font-mono text-xl md:text-3xl leading-none ${isActive ? 'chalk-text-yellow' : 'chalk-text'}">${exam.startTime}</span>
-                  <span class="tracking-[0.1em] font-mono text-xl md:text-3xl leading-none ${isActive ? 'chalk-text-yellow' : 'chalk-text'}">${exam.endTime}</span>
+              <div class="flex items-center gap-3 pt-1">
+                <i class="ph ${isActive ? 'ph-hourglass-high text-[var(--ma-gold)] animate-spin' : 'ph-clock text-white/50'} text-2xl md:text-3xl"></i>
+                <div class="flex items-center gap-2 font-mono text-lg md:text-2xl tracking-wider ${isActive ? 'text-glow-gold font-bold' : 'text-white/90'}">
+                  <span>${exam.startTime}</span>
+                  <span class="text-white/40">-</span>
+                  <span>${exam.endTime}</span>
                 </div>
               </div>
               
@@ -315,42 +483,45 @@
       }).join('');
     }
 
+    // 渲染彈窗內的考程編輯列表
     function renderEditingSchedule() {
       const listContainer = document.getElementById('editing-list');
       
       if (editingSchedule.length === 0) {
-        listContainer.innerHTML = `<p class="text-center text-white/50 py-4 tracking-widest">無考程項目</p>`;
+        listContainer.innerHTML = `<p class="text-center text-white/40 py-4 tracking-widest">無考程項目</p>`;
         return;
       }
 
       listContainer.innerHTML = editingSchedule.map(item => `
-        <div class="flex justify-between items-center p-2 md:p-3 chalk-box bg-white/5">
-          <div class="flex items-center gap-2 md:gap-3 flex-wrap flex-1">
-            <!-- 確保設定清單裡的文字也不會有過寬的空白 -->
-            <span class="text-lg md:text-xl font-bold chalk-text tracking-widest">${item.subject}</span>
-            <span class="text-white/80 px-2 md:px-3 py-1 font-mono text-sm md:text-lg tracking-widest border-l-2 border-white/30">
+        <div class="flex justify-between items-center p-2.5 md:p-3 midautumn-card bg-black/30">
+          <div class="flex items-center gap-3 flex-wrap flex-1">
+            <span class="text-base md:text-lg font-bold text-glow-gold tracking-widest">${item.subject}</span>
+            <span class="text-white/80 px-2.5 py-0.5 font-mono text-xs md:text-sm tracking-widest border-l border-[#ffe38f]/30">
               ${item.startTime} - ${item.endTime}
             </span>
           </div>
           <div class="flex items-center gap-1 shrink-0">
-            <button onclick="editEditingItem('${item.id}')" class="text-white/50 hover:text-[var(--chalk-yellow)] p-1.5 md:p-2 transition-colors">
-              <i class="ph ph-pencil-simple text-xl md:text-2xl"></i>
+            <button onclick="editEditingItem('${item.id}')" class="text-white/60 hover:text-[var(--ma-gold)] p-1.5 transition-colors">
+              <i class="ph ph-pencil-simple text-lg md:text-xl"></i>
             </button>
-            <button onclick="removeEditingItem('${item.id}')" class="text-white/50 hover:text-[var(--chalk-red)] p-1.5 md:p-2 transition-colors">
-              <i class="ph ph-eraser text-xl md:text-2xl"></i>
+            <button onclick="removeEditingItem('${item.id}')" class="text-white/60 hover:text-[var(--ma-red)] p-1.5 transition-colors">
+              <i class="ph ph-eraser text-lg md:text-xl"></i>
             </button>
           </div>
         </div>
       `).join('');
     }
 
+    // 渲染叮嚀
     function renderNotes() {
       const notes = appData.settings.teacherNotes;
       const display = document.getElementById('notes-display');
+      const container = document.getElementById('notes-container');
       display.textContent = notes;
-      display.style.display = notes ? 'block' : 'none';
+      container.style.display = notes ? 'block' : 'none';
     }
 
+    // 更新時鐘與考程狀態
     function updateClock() {
       const now = new Date();
       document.getElementById('clock-display').textContent = formatTime(now);
@@ -368,6 +539,7 @@
         renderSchedule();
       }
 
+      // 更新倒數計時器
       const countdownContainer = document.getElementById('countdown-container');
       if (appData.settings.showCountdown && newActiveExam) {
         countdownContainer.classList.remove('translate-y-[150%]', 'opacity-0', 'hidden');
@@ -392,6 +564,7 @@
       }
     }
 
+    // 自動同步儲存設定
     function autoSaveGlobalSettings() {
       appData.settings.showCountdown = document.getElementById('setting-countdown').checked;
       appData.settings.teacherNotes = document.getElementById('setting-notes').value.trim();
@@ -399,7 +572,7 @@
     }
 
     function syncToMainBoard() {
-      try { localStorage.setItem('boardAppData', JSON.stringify(appData)); } catch (e) {}
+      try { localStorage.setItem('boardAppData_midautumn', JSON.stringify(appData)); } catch (e) {}
       renderNotes();
       renderSchedule();
       updateClock();
@@ -429,11 +602,11 @@
     }
 
     function deleteFromMain(id) {
-      if (confirm('確定要從黑板上擦去這個科目嗎？')) {
+      showCustomConfirm('確定要從考程上擦去這個科目嗎？', () => {
         appData.schedule = appData.schedule.filter(item => item.id !== id);
         activeExamId = null; 
         syncToMainBoard();
-      }
+      });
     }
 
     function resetInputFields() {
@@ -444,8 +617,8 @@
       currentEditId = null;
       const btn = document.getElementById('btn-submit-item');
       document.getElementById('submit-text').textContent = '新增';
-      document.getElementById('submit-icon').className = 'ph ph-plus text-lg md:text-xl';
-      btn.className = "col-span-2 border-2 border-[var(--chalk-green)] text-[var(--chalk-green)] hover:bg-[var(--chalk-green)] hover:text-black p-2 flex items-center gap-1 font-bold transition-all w-full md:w-auto justify-center tracking-widest rounded shadow-sm text-sm md:text-base";
+      document.getElementById('submit-icon').className = 'ph ph-plus text-lg';
+      btn.className = "col-span-2 border border-[var(--ma-gold)] text-[var(--ma-gold)] hover:bg-[var(--ma-gold)] hover:text-black p-2.5 flex items-center gap-1.5 font-bold transition-all w-full md:w-auto justify-center tracking-widest rounded-lg shadow-md text-sm md:text-base";
     }
 
     function addEditingItem() {
@@ -458,8 +631,8 @@
       const endTime = endInput.value;
 
       if (subject && startTime && endTime) {
-        if(startTime >= endTime) {
-          alert('結束時間必須晚於開始時間喔！');
+        if (startTime >= endTime) {
+          showCustomAlert('結束時間必須晚於開始時間喔！');
           return;
         }
 
@@ -486,15 +659,15 @@
         resetInputFields(); 
 
         const btn = document.getElementById('btn-submit-item');
-        document.getElementById('submit-text').textContent = '成功儲存！';
-        btn.classList.add('bg-[var(--chalk-green)]', 'text-black');
+        document.getElementById('submit-text').textContent = '儲存成功！';
+        btn.classList.add('bg-[var(--ma-gold)]', 'text-black');
         setTimeout(() => {
           document.getElementById('submit-text').textContent = '新增';
-          btn.classList.remove('bg-[var(--chalk-green)]', 'text-black');
+          btn.classList.remove('bg-[var(--ma-gold)]', 'text-black');
         }, 1200);
 
       } else {
-        alert('請把黑板上的資訊填寫完整喔！');
+        showCustomAlert('請將考程資訊填寫完整喔！');
       }
     }
 
@@ -508,30 +681,11 @@
         
         const btn = document.getElementById('btn-submit-item');
         document.getElementById('submit-text').textContent = '更新';
-        document.getElementById('submit-icon').className = 'ph ph-check text-lg md:text-xl';
-        btn.className = "col-span-2 border-2 border-[var(--chalk-yellow)] text-[var(--chalk-yellow)] hover:bg-[var(--chalk-yellow)] hover:text-black p-2 flex items-center gap-1 font-bold transition-all w-full md:w-auto justify-center tracking-widest rounded shadow-sm text-sm md:text-base";
+        document.getElementById('submit-icon').className = 'ph ph-check text-lg';
+        btn.className = "col-span-2 border border-[#fff2b2] text-[#fff2b2] hover:bg-[#fff2b2] hover:text-black p-2.5 flex items-center gap-1.5 font-bold transition-all w-full md:w-auto justify-center tracking-widest rounded-lg shadow-md text-sm md:text-base";
       }
     }
 
     function removeEditingItem(id) {
       editingSchedule = editingSchedule.filter(item => item.id !== id);
       if (currentEditId === id) resetInputFields();
-      
-      appData.schedule = [...editingSchedule];
-      syncToMainBoard();
-      
-      renderEditingSchedule();
-    }
-
-    function init() {
-      renderNotes();
-      renderSchedule(); 
-      updateClock();    
-      setInterval(updateClock, 1000);
-    }
-
-    window.addEventListener('DOMContentLoaded', init);
-
-  </script>
-</body>
-</html>
